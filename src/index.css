@@ -4,5 +4,5 @@
 
 
 .hoverColor {
-    @apply  hover:text-red-500 cursor-pointer;
+    @apply  hover:text-red-500 cursor-pointer text-white ;
 }

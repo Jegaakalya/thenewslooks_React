@@ -1,8 +1,10 @@
 import React from 'react'
+import TopNavBar from '../../components/Top_Nav_Bar/Top_Nav_Bar';
 
 const MainPage = ({catagery}) => {
   return (
     < >
+      <TopNavBar catagery={catagery}/>
        <div className='mx-10 mt-5'>
             <div>
                 {catagery?.map(item=>(

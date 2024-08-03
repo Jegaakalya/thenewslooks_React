@@ -1,9 +1,13 @@
 
 import './App.css'; 
-import MainPage from './components/MainPage/MainPage';
-import TopNavBar from './components/Top_Nav_Bar/Top_Nav_Bar';
+import Admin from './Pages/Admin';
+import Authou from './Pages/Author/Authou';
+import Category from './Pages/Category/Category';
+import MainPage from './Pages/MainPage/MainPage';
+import PostList from './Pages/Post/PostList';
+
 import { DataProvider } from './context/MainContext';
-import { Route, Routes  } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   let catagery= [
@@ -237,10 +241,16 @@ function App() {
   return (
     <div className="overflow-x-hidden">
       <DataProvider> 
-        <TopNavBar catagery={catagery}/>
-        <Routes>
-          <Route path="/" element={<MainPage catagery={catagery}/>} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<MainPage catagery={catagery}/>} />
+        {/* Parent route for Admin */}
+        <Route path='/Admin' element={<Admin />}/>
+        <Route path='/category' element={<Category />} />
+        <Route path='/user' element={<Authou/>} />
+        <Route path='/Post' element={<PostList/>} />
+      </Routes>
+      
+       
       </DataProvider>
     </div>
   );

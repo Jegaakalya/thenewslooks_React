@@ -14,6 +14,24 @@ const axiosInstance = axios.create({
         Accept:'application/json',
     }
 })
+
+export async function CommanFetch(datawithquery) {
+    try{
+        const responce = await axiosInstance.post("/graphql/", {query: datawithquery})
+        const keys = Object.keys(responce.data.data)
+        const firstKeys = keys.length >0? keys[0] : null;
+        const responceData = responce?.data?.data?.[firstKeys]
+        if (responceData){
+            return {success:true, error:"" , data:responceData}
+        } else{
+            return {success:false, error:"404 Error" , data:null}
+        }
+    } catch(error){
+        return {success:false, error:error , data:null}
+    }
+    
+}
+
 // axiosInstance.interceptors.response.use(
 // 	(response) => {
 // 		return response;

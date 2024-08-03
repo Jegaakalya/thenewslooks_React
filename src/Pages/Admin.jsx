@@ -1,0 +1,14 @@
+import React from 'react'
+import AdminNavBar from '../components/AdminNavBar/AdminNavBar'
+
+const Admin = () => {
+  return (
+    < >
+       <div>
+           <AdminNavBar/>
+       </div>
+    </ >
+  )
+}
+
+export default Admin
