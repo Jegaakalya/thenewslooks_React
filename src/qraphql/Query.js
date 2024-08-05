@@ -14,10 +14,10 @@ export const allCategory=(data)=>{
 
 
   export const allCustomuser=(data)=>{ 
-    let   mutations = `
+    let   query = `
      query MyQuery {
-    allCustomuser {
-     id
+    allCustomuser{
+      id
       email
       username
       isUser
@@ -26,8 +26,26 @@ export const allCategory=(data)=>{
       dateJoined
     }
   }`
-  return mutations
+  return query
   }
+
+  export const Customuser=(data)=>{ 
+    let   query = `
+     query MyQuery {
+    allCustomuser(${data}){
+      id
+      email
+      username
+      isUser
+      isSuperuser
+      isStaff
+      dateJoined
+    }
+  }`
+  return query
+  }
+
+
   export const allPost=(data)=>{ 
     let   mutations = `
        query MyQuery {

@@ -9,39 +9,9 @@ import { IoCloseCircleOutline } from 'react-icons/io5'
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-const AdminNavBar = () => {
-    const [navigation , setNavigation] = useState([{id : 1 , name: 'Post', href: '#', current: true },
-        {id : 2 ,  name: 'Category', href: '/category', current: false },
-        {id : 3 , name: 'User', href: '/user', current: false }, ])
-     
-    
-    const handleNavigation = (item) => { 
-        setNavigation(prev => {
-            // Clone the previous state to avoid mutating it directly
-            const updatedNavigation = [...prev];
-    
-            // Find the item to update
-            const currentItem = updatedNavigation.find(navItem => navItem.id === item.id);
-    
-            if (currentItem) {
-                // Update the current item's `current` property
-                currentItem.current = true;
-    
-                // Update other items to ensure only one item is current
-                updatedNavigation.forEach(navItem => {
-                    if (navItem.id !== currentItem.id) {
-                        navItem.current = false;
-                    }
-                });
-    
-                // Return the updated navigation state
-                return updatedNavigation;
-            }
-    
-            // If item is not found, return previous state unchanged
-            return prev;
-        });
-    };
+const AdminNavBar = ({navigation, handleNavigation}) => {
+   
+  
  
     
   return (
@@ -69,7 +39,7 @@ const AdminNavBar = () => {
                     </div>
                     <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                        {navigation.map((item) => (
+                        {navigation?.map((item) => (
                         <a
                             key={item.name}
                             href={item.href}
@@ -92,7 +62,7 @@ const AdminNavBar = () => {
 
             <DisclosurePanel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
-                {navigation.map((item) => (
+                {navigation?.map((item) => (
                     <DisclosureButton
                     key={item.name}
                     as="a"

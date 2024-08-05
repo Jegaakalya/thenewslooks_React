@@ -1,5 +1,4 @@
-import React, { useState, useEffect} from 'react'
-import AdminNavBar from '../../components/AdminNavBar/AdminNavBar'
+import React, { useState, useEffect} from 'react' 
 import { CommanFetch } from '../../graphene-axois/axoiss';
 import { CiCirclePlus } from "react-icons/ci";
 import { allPost } from '../../qraphql/Query';
@@ -22,8 +21,7 @@ const PostList = () => {
     
       }, [])
   return (
-    <div className='container   '>
-    <AdminNavBar/>
+    <div className='container   '> 
     <div className='flex justify-center items-center '>
         <div>
         <div className='flex justify-end m-2'>

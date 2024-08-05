@@ -3,12 +3,13 @@ import { CiCirclePlus } from "react-icons/ci";
 import AdminNavBar from '../../components/AdminNavBar/AdminNavBar';
 import { MdOutlineModeEditOutline, MdDeleteOutline} from "react-icons/md";
 import { CommanFetch } from '../../graphene-axois/axoiss';
-import { allCustomuser } from '../../qraphql/Query';
-import AuthorForm from './model/AuthorForm';
+import { allCustomuser } from '../../qraphql/Query'; 
+import UserDetailsPopup from '../../components/Popup/userDetailsPopup';
 
 const Authou = () => {
   const [userList , setUserList] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [editId , setEditId] = useState(null)
  
   async function fetchuser(params) {
     const response = await CommanFetch(allCustomuser())
@@ -24,17 +25,16 @@ const Authou = () => {
 
   }, [])
   return (
-    <div className='container   '>
-        <AdminNavBar/>
+    <div className='container   '> 
         <div className='flex justify-center items-center '>
             <div>
-            <div className='flex justify-end m-2'>
+            {/* <div className='flex justify-end m-2'>
                 <button className='flex justify-center items-center gap-2 w-20 text-gray-800 p-2 
                 rounded-md border border-dotted border-blue-500 hover:bg-blue-500
                  hover:text-white font-bold ' onClick={()=>{setIsOpen(true)}} >
                     Add <span> <CiCirclePlus/></span>
                 </button>                       
-            </div>
+            </div> */}
             <ul className=''>
             {userList?.map(({ id, username , email}) => (
                 <div className='flex items-center gap-2'>  
@@ -44,7 +44,7 @@ const Authou = () => {
                     <MdOutlineModeEditOutline className='text-green-600 text-2xl border 
                     rounded-full p-1 border-green-600 cursor-pointer group hover:bg-green-500
                      hover:text-white' 
-                    //  onClick={()=>{setIsOpenForm(true); setEditData({id:id})}}
+                     onClick={()=>{setIsOpen(true); setEditId(id)}}
                      />
                     <MdDeleteOutline className='text-red-600 text-2xl border rounded-full p-1
                      border-red-600 cursor-pointer group
@@ -56,10 +56,13 @@ const Authou = () => {
             </ul>
             </div>
         </div>
-        <AuthorForm
-        isShow = {isOpen} 
-        setIsShow = {setIsOpen}
+  
+        <UserDetailsPopup
+        isShow ={isOpen}  
+        setIsShow =  {setIsOpen}
         fetchuser = {fetchuser}
+        editId={editId}
+        setEditId = {setEditId}
         />
     </div>
   )

@@ -5,7 +5,6 @@ import Authou from './Pages/Author/Authou';
 import Category from './Pages/Category/Category';
 import MainPage from './Pages/MainPage/MainPage';
 import PostList from './Pages/Post/PostList';
-
 import { DataProvider } from './context/MainContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -245,9 +244,7 @@ function App() {
         <Route path="/" element={<MainPage catagery={catagery}/>} />
         {/* Parent route for Admin */}
         <Route path='/Admin' element={<Admin />}/>
-        <Route path='/category' element={<Category />} />
-        <Route path='/user' element={<Authou/>} />
-        <Route path='/Post' element={<PostList/>} />
+  
       </Routes>
       
        

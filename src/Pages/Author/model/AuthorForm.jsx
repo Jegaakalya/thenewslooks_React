@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import axiosInstance from '../../../graphene-axois/axoiss';
-import { usercreateMutations } from '../../../qraphql/userMutations';
+import { usercreateMutations } from '../../../qraphql/userMutations'; 
+
 
 const AuthorForm = ({ isShow, setIsShow, fetchuser }) => {
   const [userData, setUserData] = useState({username:"", email:"", password:""})
-  
+  const [initialValues, setinitialValues] = useState({
+    username : "",
+    email: "",
+    password : "",
+  })
  
-  const handleInputLogInChange = (e) => {
-    const { name, value } = e.target;  // Destructure name and value directly from e.target
-    setUserData(prev => {
-        return { ...prev, [name]: value };  // Use bracket notation to update the state dynamically
-    });
-  };
+ 
 
   async function validateCreateUser(signUp) {
     const errors = []; 
@@ -93,7 +93,7 @@ async function handleSignUp() {
 
              </div>
              {/* Login Form sections */}
-             <div className="mt-4">
+             {/* <div className="mt-4">
     
              <input
                 type='text'
@@ -142,7 +142,35 @@ async function handleSignUp() {
                     </button> 
                 </div>
 
-             </div>
+             </div> */}
+            <div className='mt-4'>
+             <Formik
+            initialValues={initialValues}
+            // onSubmit={ ""}
+            // validationSchema={ ""}
+          >
+            {({ errors, touched, isSubmitting, setFieldValue }) => (
+              <Form className=''>
+                
+                <div className=' '>
+                     
+                    <Field
+                      type='text'
+                      name='name'
+                     
+                      placeholder='Name'
+                     
+                      className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
+                py-3 mb-4 '
+                    />
+                          
+                  </div>
+                
+              </Form>
+            )}
+          </Formik>
+
+            </div>
 
          </div>
 

@@ -13,8 +13,7 @@ const Category = () => {
     
   return (
     < >
-     <div className='container   '>
-        <AdminNavBar />
+     <div className='container   '> 
         <div className='flex justify-center items-center '>
             <div>
             <div className='flex justify-end m-2'>

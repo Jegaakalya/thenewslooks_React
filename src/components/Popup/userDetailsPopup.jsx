@@ -1,9 +1,92 @@
 import React, { useEffect } from 'react'
 import { IoCloseCircleOutline } from 'react-icons/io5'
-const UserDetailsPopup = ({isShow, setIsShow}) => {
+import { allCustomuser, Customuser } from '../../qraphql/Query';
+import { CommanFetch } from '../../graphene-axois/axoiss';
+import { Formik, Field, Form } from 'formik';
+import { ToastContainer, toast , Bounce} from 'react-toastify';
+import axiosInstance from '../../graphene-axois/axoiss';
+import { usercreateMutations } from "../../qraphql/userMutations";
+import { createUserSchema } from '../../Schemas/userSchemas';
+
+const UserDetailsPopup = ({isShow, setIsShow, editId, setEditId}) => {
+
+    async function fetchUserData(params){ 
+        const response = await CommanFetch(Customuser(`id:${editId}`))
+        if (response){
+            console.log(response?.data?.[0]);
+            // setUserList(response?.data)
+        } else{
+            // console.error(response.error);
+        }   
+        
+    }
+
     useEffect(()=>{
-        console.log(isShow);
-    },[isShow])
+    if(isShow && editId){
+        fetchUserData(editId)
+    }
+    }, [isShow, editId])
+
+    function Close(params) {
+        setEditId('')
+        setIsShow(false)
+        
+    }
+    const createUser = async(values, {setSubmitting, resetForm}) =>{ 
+        let parameter = `email: "${values?.email}", password: "${values?.password}", username: "${values?.username}"`
+            
+        try{
+            const respones = await axiosInstance.post('/graphql/' , 
+            {query: usercreateMutations(parameter)}); 
+            let responesData = respones.data.data.rigister
+            console.log(responesData)
+            if (responesData.success){
+                setIsShow(false)
+                resetForm()
+                toast(
+                   'User Created Successfully.',
+                   {
+                     position: 'top-center',
+                     autoClose: 800,
+                     hideProgressBar: true,
+                     closeOnClick: true,
+                     pauseOnHover: true,
+                     draggable: true,
+                     progress: 0,
+                     theme: 'light',
+                     className: 'custom-toast'
+                   }
+                 )
+            } else{
+               alert(responesData.errors)
+               // toast.error(`${responesData.errors}`, {
+               //     position: 'top-center',
+               //     autoClose: 2000,
+               //     hideProgressBar: false,
+               //     closeOnClick: true,
+               //     pauseOnHover: true,
+               //     draggable: true,
+               //     progress: undefined,
+               //     theme: 'light'
+               //   })
+            }
+            
+          } catch(error){
+           alert(error)
+           // toast.error(`${error}`, {
+           //     position: 'top-center',
+           //     autoClose: 2000,
+           //     hideProgressBar: false,
+           //     closeOnClick: true,
+           //     pauseOnHover: true,
+           //     draggable: true,
+           //     progress: undefined,
+           //     theme: 'light'
+           //   })
+          }
+        setSubmitting(false)
+   }
+   
   return (
     <>
       {isShow && 
@@ -21,7 +104,7 @@ const UserDetailsPopup = ({isShow, setIsShow}) => {
                         <div>
                             <IoCloseCircleOutline
                              className='text-2xl cursor-pointer'
-                             onClick={()=>{setIsShow(false)}}
+                             onClick={Close}
                             />
                         </div>
 
@@ -35,41 +118,74 @@ const UserDetailsPopup = ({isShow, setIsShow}) => {
                                     className="h-28 w-28 rounded-full"
                                 />
                             </div>
-                            <label for="price" class="block text-sm font-medium leading-6 text-gray-900">User Name</label>
-                            <input
-                                type='text'
-                                placeholder='Enter User Name'
-                                className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
-                                py-3 mb-2 '
-                            />
-                            <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
-                            <input
-                                type='text'
-                                placeholder='Enter Phone Number'
-                                className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
-                                py-3 mb-2 '
-                            />
-                            <label for="price" class="block text-sm font-medium leading-6 text-gray-900">State</label>
-                            <input
-                                type='text'
-                                placeholder='Enter State'
-                                className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
-                                py-3 mb-2'
-                            />
-                             <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Date Of Birth</label>
-                             <input
-                                type='date'
-                                placeholder='Enter Date Of Birth'
-                                className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
-                                py-3 mb-2'
-                            />
-                            {/*  */}
-                            <div className='flex justify-center'>
-                                <button className='w-full text-white p-2 rounded-md bg-blue-500 font-bold ' onClick={()=>{setIsShow(false)}}>
-                                    Save
-                                </button>
-                                
-                            </div>
+                      
+                             <Formik
+                                initialValues={{ username : "",  email: '', phoneNumber:"", password:"" }}
+                                    onSubmit={createUser}
+                                    validationSchema={createUserSchema}
+                                >
+                                    {({ errors, touched, isSubmitting, setFieldValue }) => (
+                                    <Form className=''>
+                                        
+                                        <div className=' '> 
+                                            <Field
+                                            type='text'
+                                            name='username'
+                                            
+                                            placeholder='Enter Name'
+                                            
+                                            className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
+                                        py-3 mb-4 '
+                                            />
+                                            {touched?.username && errors.username && (
+                                            <small>{errors.username}</small>
+                                            )}
+                                            <Field
+                                            type='text'
+                                            name='email'
+                                            
+                                            placeholder='Enter Email'
+                                            
+                                            className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
+                                        py-3 mb-4 '
+                                            />
+                                               {touched.email && errors.email && (
+                                            <small>{errors.email}</small>
+                                            )}
+                                            <Field
+                                            type='text'
+                                            name='Phone'
+                                            
+                                            placeholder='Enter Phone Number'
+                                            
+                                            className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
+                                        py-3 mb-4 '
+                                            />
+                                               {touched.phoneNumber && errors.phoneNumber && (
+                                            <small>{errors.phoneNumber}</small>
+                                            )}
+                                             <Field
+                                            type='password'
+                                            name='password'
+                                            
+                                            placeholder='Enter Password'
+                                            
+                                            className='w-full rounded-md border border-gray-300 dark:border-gray-500 px-2
+                                        py-3 mb-4 '
+                                            />
+                                               {touched.password && errors.password && (
+                                            <small>{errors.password}</small>
+                                            )}
+                                        </div>
+                                        <div className='flex justify-center'>
+                                            <button  type='submit' className='w-full text-white p-2 rounded-md bg-blue-500 font-bold'  disabled={isSubmitting}>
+                                                Save
+                                            </button> 
+                                        </div>
+                                       
+                                    </Form>
+                                    )}
+                                </Formik> 
                                
                     </div>
 

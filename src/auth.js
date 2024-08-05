@@ -37,17 +37,17 @@ export const logout = () => {
 };
 
 
-useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const decoded = jwtDecode(token);
-    const now = Date.now() / 1000;
-    if (decoded.exp > now) {
-      setIsAuth(true);
-      setRole(decoded.role); // Ensure your token contains role information
-    }
-  }
-}, []);
+// useEffect(() => {
+//   const token = localStorage.getItem('token');
+//   if (token) {
+//     const decoded = jwtDecode(token);
+//     const now = Date.now() / 1000;
+//     if (decoded.exp > now) {
+//       setIsAuth(true);
+//       setRole(decoded.role); // Ensure your token contains role information
+//     }
+//   }
+// }, []);
 
 export const isAuthenticated = () => {
   const token = localStorage.getItem('token');
