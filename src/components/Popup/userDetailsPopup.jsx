@@ -13,7 +13,7 @@ const UserDetailsPopup = ({isShow, setIsShow, editId, setEditId}) => {
     async function fetchUserData(params){ 
         const response = await CommanFetch(Customuser(`id:${editId}`))
         if (response){
-            console.log(response?.data?.[0]);
+            // console.log(response?.data?.[0]);
             // setUserList(response?.data)
         } else{
             // console.error(response.error);
